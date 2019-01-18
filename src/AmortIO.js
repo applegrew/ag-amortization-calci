@@ -60,11 +60,11 @@ class rAmortInput extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
-         totalMonths: 120,
+         totalMonths: 240,
          startDate_extra: {},
          totalPrePayments: 0,
-         interest: "8.10",
-         interest_extra: { value: 8.1 }
+         interest: "8.95",
+         interest_extra: { value: 8.95 }
       };
    }
 
