@@ -214,7 +214,7 @@ class rAmortInput extends React.Component {
          let { amt, date } = this.getPrePayData(i);
          prePayData.push({ amt, month: date.m, yr: date.y });
       }
-      window.calculateAmortization(
+      let data = window.calculateAmortization(
          totalMonths,
          startDate.m - 1,
          startDate.y,
@@ -222,6 +222,8 @@ class rAmortInput extends React.Component {
          interest.value,
          prePayData
       );
+      const { onCalculate } = this.props;
+      if (onCalculate) onCalculate(data);
    }
 
    render() {
@@ -323,7 +325,9 @@ class rAmortInput extends React.Component {
                </FormControl>
             </Paper>
             <Paper className={classes.root} elevation={4}>
-               <Typography>Prepayment schedule (if any)</Typography>
+               <Typography variant="h5" gutterBottom>
+                  Prepayment schedule (if any)
+               </Typography>
                <Grid container spacing={24}>
                   {prePayHtml}
                   <Grid item xs={12}>
@@ -357,10 +361,13 @@ class rAmortOutput extends React.Component {
       super(props);
    }
    render() {
-      const { classes } = this.props;
+      const { classes, emi } = this.props;
       return (
          <Paper className={classes.root} elevation={4}>
-            <Typography>Resulting graph</Typography>
+            <Typography variant="h5" gutterBottom>
+               Resulting graph
+            </Typography>
+            <Typography>Calculated EMI: ₹{emi}</Typography>
             <canvas id="graph" />
             <canvas id="pie" />
          </Paper>
@@ -371,4 +378,26 @@ class rAmortOutput extends React.Component {
 const AmortInput = withStyles(styles)(rAmortInput);
 const AmortOutput = withStyles(styles)(rAmortOutput);
 
-export { AmortInput, AmortOutput };
+class ParentComponent extends React.Component {
+   constructor(props) {
+      super(props);
+      this.state = {
+         emi: "_"
+      };
+   }
+   render() {
+      const { emi } = this.state;
+      return (
+         <div>
+            <AmortInput
+               onCalculate={data => {
+                  if (data) this.setState({ emi: data.emi });
+               }}
+            />
+            <AmortOutput emi={emi} />
+         </div>
+      );
+   }
+}
+
+export { ParentComponent };

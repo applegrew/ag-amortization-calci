@@ -96,7 +96,6 @@ export function calculateFullAmortizationData(
    prepaymentData
 ) {
    if (!prepaymentData) prepaymentData = [];
-   console.log("prepaymentData", prepaymentData);
    prepaymentData.forEach(function(d) {
       if (startingYr === d.yr) {
          d.idx = d.month - startingMonth;

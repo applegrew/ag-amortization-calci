@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
-import { AmortInput, AmortOutput } from "./AmortInput";
+import { ParentComponent as AmorComponent } from "./AmortIO";
 import {
    calculateFullAmortizationData,
    renderBarChart,
@@ -14,8 +14,7 @@ const styles = {
 
 render(
    <div>
-      <AmortInput />
-      <AmortOutput />
+      <AmorComponent />
    </div>,
    document.getElementById("form"),
    function() {
@@ -35,7 +34,6 @@ render(
             interest,
             prepaymentData
          );
-         console.log(data);
          let canvas = document.getElementById("graph");
          let ctx = canvas.getContext("2d");
          ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -44,6 +42,7 @@ render(
          ctx = canvas.getContext("2d");
          ctx.clearRect(0, 0, canvas.width, canvas.height);
          renderPieChart(data, ctx);
+         return data;
       };
    }
 );
