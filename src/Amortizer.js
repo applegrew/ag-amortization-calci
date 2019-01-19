@@ -138,6 +138,7 @@ const CHART_COLORS = {
    grey: "rgb(201, 203, 207)"
 };
 
+let oldBar;
 export function renderBarChart(fullAmortizationData, barChartCtx) {
    let barChartData = {
       labels: fullAmortizationData.timeData
@@ -174,7 +175,8 @@ export function renderBarChart(fullAmortizationData, barChartCtx) {
          }
       ]
    };
-   new Chart(barChartCtx, {
+   if (oldBar) oldBar.destroy();
+   oldBar = new Chart(barChartCtx, {
       type: "bar",
       data: barChartData,
       options: {
@@ -207,12 +209,14 @@ export function renderBarChart(fullAmortizationData, barChartCtx) {
    });
 }
 
+let oldPie;
 export function renderPieChart(fullAmortizationData, pieChartCtx) {
    let data = [
       fullAmortizationData.totalInt,
       fullAmortizationData.totalPrincipal
    ];
-   new Chart(pieChartCtx, {
+   if (oldPie) oldPie.destroy();
+   oldPie = new Chart(pieChartCtx, {
       type: "pie",
       data: {
          datasets: [
